@@ -18,11 +18,11 @@ sequelize model:generate --name Domicilio --attributes calle:string,numero:integ
 
 sequelize model:generate --name Usuario --attributes nombre:string,apellido:string,telefono:integer,email:string,usuario:string,clave:string,rolId:integer,domicilioId:integer
 
-sequelize model:generate --name ArticuloManufacturado --attributes tiempoCocinaEstimado:integer,denominacion:string,precioVenta:decimal,imagen:string,rubroGeneralId:integer
+sequelize model:generate --name ArticuloManufacturadoDetalle --attributes cantidad:decimal,unidadMedida:string,articuloInsumoId:integer
+
+sequelize model:generate --name ArticuloManufacturado --attributes tiempoCocinaEstimado:integer,denominacion:string,precioVenta:decimal,imagen:string,rubroGeneralId:integer,articuloManufacturadoDetalleId:integer
 
 sequelize model:generate --name ArticuloInsumo --attributes denominacion:string,precioCompra:decimal,precioVenta:decimal,stockActual:decimal,stockMinimo:decimal,unidadMedida:string,esInsumo:boolean
-
-sequelize model:generate --name ArticuloManufacturadoDetalle --attributes cantidad:decimal,unidadMedida:string,articuloInsumoId:integer,articuloManufacturadoId:integer
 
 sequelize model:generate --name DetallePedido --attributes cantidad:integer,subtotal:decimal,articuloManufacturadoId:integer,bebidaId:integer
 
