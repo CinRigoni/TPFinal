@@ -27,7 +27,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       rolId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Rol',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       domicilioId: {
         type: Sequelize.INTEGER
