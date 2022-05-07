@@ -13,8 +13,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
-import {cxMysql} from './database/config/config.js';
-cxMysql.getConnection;
+import db from "./database/config/config";
+db.sync().then(() => {
+    console.log("Conectado a la Base de Datos")
+}).catch(() => {
+    console.log("Error al conectar Base de Datos");
+});
 
 //app.use(routes);
 
