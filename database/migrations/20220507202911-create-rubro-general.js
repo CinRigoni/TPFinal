@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('RubroGenerals', {
+    await queryInterface.createTable('RubroGeneral', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,7 +12,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       bajaLogica_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'bajalogica',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +30,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('RubroGenerals');
+    await queryInterface.dropTable('RubroGeneral');
   }
 };

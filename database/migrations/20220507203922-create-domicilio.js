@@ -1,14 +1,14 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Domicilios', {
+    await queryInterface.createTable('Domicilio', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      cliente_id: {
+      usuario_id: {
         type: Sequelize.INTEGER
       },
       calle: {
@@ -21,7 +21,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       bajaLogica_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'bajalogica',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Domicilios');
+    await queryInterface.dropTable('Domicilio');
   }
 };

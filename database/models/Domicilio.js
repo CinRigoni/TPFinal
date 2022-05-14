@@ -10,11 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Domicilio.belongsTo(models.BajaLogica, {
+        foreignKey: 'id',
+        targetKey: 'bajaLogica_id'
+      })
     }
   }
   Domicilio.init({
-    cliente_id: DataTypes.INTEGER,
+    usuario_id: DataTypes.INTEGER,
     calle: DataTypes.STRING,
     numero: DataTypes.INTEGER,
     localidad: DataTypes.STRING,

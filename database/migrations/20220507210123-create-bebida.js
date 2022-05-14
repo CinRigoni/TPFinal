@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bebidas', {
+    await queryInterface.createTable('Bebida', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -24,7 +24,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       bajaLogica_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'bajalogica',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -37,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Bebidas');
+    await queryInterface.dropTable('Bebida');
   }
 };

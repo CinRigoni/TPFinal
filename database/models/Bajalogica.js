@@ -10,13 +10,34 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+
+      //Tablas relacionadas con bajaLogica
+      let tablas = [
+        models.MercadoPagoDatos,
+        models.EstadoPedido,
+        models.Rol,
+        models.RubroGeneral,
+        models.RubroInsumo,
+        models.ArticuloInsumo,
+        models.ArticuloManufacturado,
+        models.Usuario,
+        models.Domicilio,
+        models.ArticuloManufacturadoDetalle,
+        models.Bebida,
+        models.Pedido
+        //Si es necesario, se agrega acá otra tabla relacionada con bajaLogica
+      ]
+      tablas.forEach(tabla => {
+        //Relacion con las tablas indicadas en el array
+        BajaLogica.hasMany(tabla, {
+          foreignKey: 'bajaLogica_id'
+        })
+      });
     }
   }
   BajaLogica.init({
     bajaLogica: DataTypes.BOOLEAN,
-    fechaBaja: DataTypes.DATE,
-    usuarioBaja_id: DataTypes.INTEGER
+    fechaBaja: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'BajaLogica',

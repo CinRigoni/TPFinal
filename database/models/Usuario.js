@@ -10,18 +10,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Usuario.belongsTo(models.BajaLogica, {
+        foreignKey: 'id',
+        targetKey: 'bajaLogica_id'
+      })
     }
   }
   Usuario.init({
     usuario: DataTypes.STRING,
     clave: DataTypes.STRING,
-    rol_id: DataTypes.INTEGER,
+    idRol: DataTypes.INTEGER,
     nombre: DataTypes.STRING,
     apellido: DataTypes.STRING,
     telefono: DataTypes.INTEGER,
     email: DataTypes.STRING,
-    bajalogica_id: DataTypes.INTEGER
+    bajaLogica_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Usuario',
