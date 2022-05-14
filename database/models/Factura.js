@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Factura.belongsTo(models.Pedido, {
+        foreignKey: 'id',
+        targetKey: 'pedido_id'
+      })
     }
   }
   Factura.init({

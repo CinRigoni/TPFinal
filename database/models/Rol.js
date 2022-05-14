@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      Rol.hasMany(models.Usuario, {
+        foreignKey: 'rol_id'
+      })
     }
   }
   Rol.init({

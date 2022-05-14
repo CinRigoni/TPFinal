@@ -4,41 +4,63 @@ module.exports = {
     await queryInterface.createTable('Pedido', {
       id: {
         allowNull: false,
+        unique: true,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       fecha: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       numero: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
-      estado_id: {
-        type: Sequelize.INTEGER
+      estadoPedido_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'estadopedido',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       horaEstimadaFin: {
+        allowNull: false,
         type: Sequelize.TIME
       },
       tipoEnvio: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       total: {
+        allowNull: false,
         type: Sequelize.DECIMAL
       },
       usuario_id: {
-        type: Sequelize.INTEGER
-      },
-      domicilio_id: {
-        type: Sequelize.INTEGER
-      },
-      mercadoPagoDatos_id: {
-        type: Sequelize.INTEGER
-      },
-      bajaLogica_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'bajalogica',
+          model: 'usuario',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
+      },
+      domicilio_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'domicilio',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
+      },
+      mercadoPagoDatos_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'mercadopagodatos',
           key: 'id'
         },
         onUpdate: 'CASCADE'

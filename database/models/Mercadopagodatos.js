@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      MercadoPagoDatos.hasMany(models.Pedido, {
+        foreignKey: 'mercadoPagoDatos_id'
+      })
     }
   }
   MercadoPagoDatos.init({
@@ -25,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     metodoPago: DataTypes.STRING,
     nroTarjeta: DataTypes.STRING,
     estado: DataTypes.STRING,
-    bajaLogica_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'MercadoPagoDatos',

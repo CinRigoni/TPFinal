@@ -4,26 +4,41 @@ module.exports = {
     await queryInterface.createTable('Bebida', {
       id: {
         allowNull: false,
+        unique: true,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       nombreBebida: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          isAlphanumeric: true,
+        }
       },
       precioCompra: {
+        allowNull: false,
         type: Sequelize.DECIMAL
       },
       precioVenta: {
+        allowNull: false,
         type: Sequelize.DECIMAL
       },
       stockActual: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       unidadMedida: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          isAlphanumeric: true,
+        }
       },
       bajaLogica_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'bajalogica',

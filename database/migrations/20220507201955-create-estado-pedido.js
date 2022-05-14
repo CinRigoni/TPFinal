@@ -4,14 +4,20 @@ module.exports = {
     await queryInterface.createTable('EstadoPedido', {
       id: {
         allowNull: false,
+        unique: true,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       nombreEstado: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
       },
       bajaLogica_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'bajalogica',

@@ -4,36 +4,67 @@ module.exports = {
     await queryInterface.createTable('Usuario', {
       id: {
         allowNull: false,
+        unique: true,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       usuario: {
-        type: Sequelize.STRING
+        allowNull: false,
+        unique: true,
+        len: [6,12],
+        type: Sequelize.STRING(12),
+        validate: {
+          notEmpty: true,
+          isAlphanumeric: true
+        }
       },
       clave: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING(64),
+        validate: {
+          notEmpty: true,
+          is: /^[0-9a-f]{64}$/i
+        }
       },
-      idRol: {
+      rol_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'Rol',
+          model: 'rol',
           key: 'id'
         }
       },
       nombre: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          isAlphanumeric: true,
+        }
       },
       apellido: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          isAlphanumeric: true,
+        }
       },
       telefono: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       email: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          isEmail: true,
+        }
       },
       bajaLogica_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'bajalogica',

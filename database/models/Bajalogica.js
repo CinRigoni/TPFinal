@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
 
       //Tablas relacionadas con bajaLogica
       let tablas = [
-        models.MercadoPagoDatos,
         models.EstadoPedido,
         models.Rol,
         models.RubroGeneral,
@@ -23,8 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         models.Usuario,
         models.Domicilio,
         models.ArticuloManufacturadoDetalle,
-        models.Bebida,
-        models.Pedido
+        models.Bebida
         //Si es necesario, se agrega acá otra tabla relacionada con bajaLogica
       ]
       tablas.forEach(tabla => {

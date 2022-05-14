@@ -14,6 +14,19 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      ArticuloManufacturado.belongsTo(models.RubroGeneral, {
+        foreignKey: 'id',
+        targetKey: 'rubroGeneral_id'
+      })
+
+      ArticuloManufacturado.hasMany(models.ArticuloManufacturadoDetalle, {
+        foreignKey: 'articuloManufacturado_id'
+      })
+
+      ArticuloManufacturado.hasMany(models.DetallePedido, {
+        foreignKey: 'articuloManufacturado_id'
+      })
     }
   }
   ArticuloManufacturado.init({

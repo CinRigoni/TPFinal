@@ -4,23 +4,42 @@ module.exports = {
     await queryInterface.createTable('Domicilio', {
       id: {
         allowNull: false,
+        unique: true,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       usuario_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'usuario',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       calle: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          isAlphanumeric: true,
+        }
       },
       numero: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       localidad: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          isAlphanumeric: true,
+        }
       },
       bajaLogica_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'bajalogica',

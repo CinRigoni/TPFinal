@@ -4,21 +4,36 @@ module.exports = {
     await queryInterface.createTable('DetallePedido', {
       id: {
         allowNull: false,
+        unique: true,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       cantidad: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       subtotal: {
+        allowNull: false,
         type: Sequelize.DECIMAL
       },
       articuloManufacturado_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'articulomanufacturado',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       bebida_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'bebida',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

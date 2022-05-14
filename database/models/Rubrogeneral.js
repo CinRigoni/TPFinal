@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      RubroGeneral.hasMany(models.ArticuloManufacturado, {
+        foreignKey: 'rubroGeneral_id'
+      })
     }
   }
   RubroGeneral.init({

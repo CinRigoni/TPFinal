@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      EstadoPedido.hasMany(models.Pedido, {
+        foreignKey: 'estadoPedido_id'
+      })
     }
   }
   EstadoPedido.init({

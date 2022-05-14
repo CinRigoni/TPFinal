@@ -14,13 +14,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      ArticuloInsumo.belongsTo(models.RubroInsumo, {
+        foreignKey: 'id',
+        targetKey: 'rubroInsumo_id'
+      })
+
+      ArticuloInsumo.hasMany(models.ArticuloManufacturadoDetalle, {
+        foreignKey: 'articuloInsumo_id'
+      })
     }
   }
   ArticuloInsumo.init({
     denominacion: DataTypes.STRING,
     precioCompra: DataTypes.DECIMAL,
     precioVenta: DataTypes.DECIMAL,
-    stockActual: DataTypes.DECIMAL,
+    stockActual: DataTypes.INTEGER,
     stockMinimo: DataTypes.INTEGER,
     unidadMedida: DataTypes.STRING,
     esInsumo: DataTypes.BOOLEAN,

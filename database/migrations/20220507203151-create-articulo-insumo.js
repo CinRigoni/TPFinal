@@ -4,35 +4,56 @@ module.exports = {
     await queryInterface.createTable('ArticuloInsumo', {
       id: {
         allowNull: false,
+        unique: true,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
       denominacion: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
       },
       precioCompra: {
+        allowNull: false,
         type: Sequelize.DECIMAL
       },
       precioVenta: {
+        allowNull: false,
         type: Sequelize.DECIMAL
       },
       stockActual: {
-        type: Sequelize.DECIMAL
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       stockMinimo: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       unidadMedida: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
       },
       esInsumo: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
       rubroInsumo_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'rubroinsumo',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
       },
       bajaLogica_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'bajalogica',

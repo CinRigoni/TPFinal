@@ -14,12 +14,25 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      Usuario.belongsTo(models.Rol, {
+        foreignKey: 'id',
+        targetKey: 'rol_id'
+      })
+
+      Usuario.hasMany(models.Domicilio, {
+        foreignKey: 'usuario_id'
+      })
+
+      Usuario.hasMany(models.Pedido, {
+        foreignKey: 'usuario_id'
+      })
     }
   }
   Usuario.init({
     usuario: DataTypes.STRING,
     clave: DataTypes.STRING,
-    idRol: DataTypes.INTEGER,
+    rol_id: DataTypes.INTEGER,
     nombre: DataTypes.STRING,
     apellido: DataTypes.STRING,
     telefono: DataTypes.INTEGER,

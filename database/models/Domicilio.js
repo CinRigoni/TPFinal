@@ -14,6 +14,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      Domicilio.belongsTo(models.Usuario, {
+        foreignKey: 'id',
+        targetKey: 'usuario_id'
+      })
+
+      Domicilio.hasMany(models.Pedido, {
+        foreignKey: 'domicilio_id'
+      })
     }
   }
   Domicilio.init({

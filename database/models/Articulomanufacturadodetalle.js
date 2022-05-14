@@ -14,13 +14,23 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         targetKey: 'bajaLogica_id'
       })
+
+      ArticuloManufacturadoDetalle.belongsTo(models.ArticuloInsumo, {
+        foreignKey: 'id',
+        targetKey: 'articuloInsumo_id'
+      })
+
+      ArticuloManufacturadoDetalle.belongsTo(models.ArticuloManufacturado, {
+        foreignKey: 'id',
+        targetKey: 'articuloManufacturado_id'
+      })
     }
   }
   ArticuloManufacturadoDetalle.init({
-    cantidad: DataTypes.DECIMAL,
+    cantidad: DataTypes.INTEGER,
     unidadMedida: DataTypes.STRING,
-    articuloInsumoId: DataTypes.INTEGER,
-    ArticuloManufacturado_id: DataTypes.INTEGER,
+    articuloInsumo_id: DataTypes.INTEGER,
+    articuloManufacturado_id: DataTypes.INTEGER,
     bajaLogica_id: DataTypes.INTEGER
   }, {
     sequelize,
