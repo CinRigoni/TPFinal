@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       RubroGeneral.belongsTo(models.BajaLogica, {
-        foreignKey: 'id',
-        targetKey: 'bajaLogica_id'
+        foreignKey: 'bajaLogica_id',
+        targetKey: 'id'
       })
 
       RubroGeneral.hasMany(models.ArticuloManufacturado, {

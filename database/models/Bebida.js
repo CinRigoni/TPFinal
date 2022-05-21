@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
 
       Bebida.belongsTo(models.BajaLogica, {
-        foreignKey: 'id',
-        targetKey: 'bajaLogica_id'
+        foreignKey: 'bajaLogica_id',
+        targetKey: 'id'
       })
       
       Bebida.hasMany(models.DetallePedido, {

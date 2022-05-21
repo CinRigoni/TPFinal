@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       ArticuloManufacturado.belongsTo(models.BajaLogica, {
-        foreignKey: 'id',
-        targetKey: 'bajaLogica_id'
+        foreignKey: 'bajaLogica_id',
+        targetKey: 'id'
       })
 
       ArticuloManufacturado.belongsTo(models.RubroGeneral, {
-        foreignKey: 'id',
-        targetKey: 'rubroGeneral_id'
+        foreignKey: 'rubroGeneral_id',
+        targetKey: 'id'
       })
 
       ArticuloManufacturado.hasMany(models.ArticuloManufacturadoDetalle, {

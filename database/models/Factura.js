@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Factura.belongsTo(models.Pedido, {
-        foreignKey: 'id',
-        targetKey: 'pedido_id'
+        foreignKey: 'pedido_id',
+        targetKey: 'id'
       })
     }
   }

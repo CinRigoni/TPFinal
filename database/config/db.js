@@ -2,8 +2,9 @@ const { Sequelize } = require('sequelize');
 
 const config = require('./config');
 
+const sequelize = new Sequelize(config.development)
+
 let conexion = async() => {
-    const sequelize = new Sequelize(config.development)
     try {
         await sequelize.authenticate();
         console.log('Conexion establecida con la Base de Datos');
@@ -12,6 +13,6 @@ let conexion = async() => {
       }
 };
 
-module.exports = conexion;
+module.exports = {conexion, sequelize};
 
  
