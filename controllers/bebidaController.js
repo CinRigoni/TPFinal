@@ -6,8 +6,7 @@ const getBebidas = (req,res) => {
     res.send("getBebidas")
 }
 const createBebidas = async(req,res) => {
-    const {nombre,precioCompra,precioVenta,stockActual,unidadMedida} = req.body;
-    
+    const {nombreBebida,precioCompra,precioVenta,stockActual,unidadMedida} = req.body;
     try {
         //Se crea primero la baja lógica
         const newBajaLogica = await BajaLogica.create({
@@ -16,7 +15,7 @@ const createBebidas = async(req,res) => {
         })
         //Se crea bebida
         const newBebida = await Bebida.create({
-            nombreBebida: nombre,
+            nombreBebida: nombreBebida,
             precioCompra: precioCompra,
             precioVenta: precioVenta,
             stockActual: stockActual,
