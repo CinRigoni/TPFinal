@@ -1,20 +1,44 @@
-
 const Bebida = require('../database/models').Bebida;
 const BajaLogica = require('../database/models').BajaLogica;
 
-const getBebidas = (req,res) => {
-    res.send("getBebidas")
+//Devuelve todas las bebidas QUE ESTAN DE ALTA
+const getBebidas = async(req,res) => {
+    try{
+        let result = await Bebida.findAll({
+            include: {
+                model: BajaLogica,
+                where: {bajaLogica: false}
+            },
+        });
+        res.send(result);
+    }catch(error){
+        console.log(error);
+    }
 }
+
+const getAllBebidas = async(req,res) => {
+    try{
+        let result = await Bebida.findAll({
+            include: {
+                model: BajaLogica,
+            },
+        });
+        res.send(result);
+    }catch(error){
+        console.log(error);
+    }
+}
+
 const createBebidas = async(req,res) => {
-    const {nombreBebida,precioCompra,precioVenta,stockActual,unidadMedida} = req.body;
+    let {nombreBebida,precioCompra,precioVenta,stockActual,unidadMedida} = req.body;
     try {
         //Se crea primero la baja lógica
-        const newBajaLogica = await BajaLogica.create({
+        let newBajaLogica = await BajaLogica.create({
             bajaLogica: 0,
             fechaBaja: Date.now()
         })
         //Se crea bebida
-        const newBebida = await Bebida.create({
+        let newBebida = await Bebida.create({
             nombreBebida: nombreBebida,
             precioCompra: precioCompra,
             precioVenta: precioVenta,
@@ -32,13 +56,72 @@ const createBebidas = async(req,res) => {
         })
     }
 }
-const deleteBebidas = (req,res) => {
-    res.send("delete bebidas")
+
+//Busca por id la bebida y lo marca como BAJA
+const deleteBebidas = async(req,res) => {
+    try{
+        let idArt = parseInt(req.params.id);
+        //Se busca la bebida
+        let bebida = await Bebida.findByPk(idArt);
+        if(!bebida){
+            res.send("No se encontro bebida")
+            return;
+        }
+        //Se crea primero la baja lógica
+        let newBajaLogica = await BajaLogica.create({
+            bajaLogica: 1,
+            fechaBaja: Date.now()
+        })
+        await Bebida.update({ bajaLogica_id: newBajaLogica.id }, {
+            where: {
+              id: idArt
+            }
+          });
+          res.send("Se dio baja a bebida")
+    }catch(error){
+        res.send(error);
+    }
 }
-const updateBebidas = (req,res) => {
-    res.send("update bebidas")
+
+
+const updateBebidas = async(req,res) => {
+    try{
+        let {nombreBebida,precioCompra,precioVenta,stockActual,unidadMedida} = req.body;
+        let idArt = parseInt(req.params.id);
+        //Se busca la bebida
+        let bebida = await Bebida.findByPk(idArt);
+        if(!bebida){
+            res.send("No se encontro bebida")
+            return;
+        }
+        await Bebida.update({ 
+            nombreBebida: nombreBebida,
+            precioCompra: precioCompra,
+            precioVenta: precioVenta,
+            stockActual: stockActual,
+            unidadMedida: unidadMedida}, {
+            where: {
+              id: idArt
+            }
+          });
+          res.send("Se actualizo bebida");
+    }catch(error){
+        res.send(error);
+    }
 }
-const getBebidasId = (req,res) => {
-    res.send("getbebiba id")
+const getBebidasId = async(req,res) => {
+    try{
+        let idArt = parseInt(req.params.id);
+        let bebida = await Bebida.findByPk(idArt,{
+            include: {model: BajaLogica}
+        });
+        if(!bebida){
+            res.send("No se encontro bebida")
+            return;
+        }
+        res.send(bebida);
+    }catch(error){
+        res.send(error);
+    }
 }
-module.exports = {getBebidas,createBebidas,deleteBebidas,updateBebidas,getBebidasId};
+module.exports = {getBebidas,getAllBebidas,createBebidas,deleteBebidas,updateBebidas,getBebidasId};

@@ -7,9 +7,10 @@ const {validateBebida} = require('../validators/bebidaValidator')
 const controller = require('../controllers/bebidaController')
 
 router.get('/',controller.getBebidas);
+router.get('/all',controller.getAllBebidas);
 router.post('/',validateBebida,controller.createBebidas);
 router.delete('/:id',controller.deleteBebidas);
-router.put('/:id',controller.updateBebidas);
+router.put('/:id',validateBebida,controller.updateBebidas);
 router.get('/:id',controller.getBebidasId);
 
 

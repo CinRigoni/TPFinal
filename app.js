@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api/bebidas', require('./routes/RutasBebidas'));
+app.use('/api/rubroInsumo', require('./routes/RutasRubroInsumo'));
 
 var http = require('http');
 var server = http.createServer(app);
