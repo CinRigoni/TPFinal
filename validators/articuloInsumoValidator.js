@@ -1,14 +1,15 @@
 const {body, validationResult} = require('express-validator');
 
   exports.validator = [
-    body('nombreBebida').custom((value) => {
+    body('denominacion').custom((value) => {
       return value.match(/^[A-Za-z 0-9]+$/);
     })
-    .withMessage("Nombre Bebida debe contener solo letras y numeros")
+    .withMessage("Denominacion debe contener solo letras y numeros")
     .bail()
     .notEmpty()
     .withMessage("Campo vacio")
     .bail(),
+
     body('precioCompra').isNumeric()
     .withMessage('Precio de Compra debe ser Decimal')
     .bail()
@@ -32,14 +33,39 @@ const {body, validationResult} = require('express-validator');
       .withMessage('Stock actual Vacio')
       .bail(),
 
+    body('stockMinimo')
+      .isNumeric()
+      .withMessage('Stock debe ser numero')
+      .bail()
+      .notEmpty()
+      .withMessage('Stock actual Vacio')
+      .bail(),
+
     body('unidadMedida').custom((value) => {
-      return value.match(/^[A-Za-z 0-9]+$/);
-    })
+        return value.match(/^[A-Za-z 0-9]+$/);
+      })
       .withMessage('Unidad Medida debe contener solo letras y numeros')
       .bail()
       .notEmpty()
       .withMessage('Nombre de bebida vacio')
       .bail(),
+    
+    body('esInsumo')
+      .isBoolean()
+      .withMessage('esInsumo debe ser booleano (0 y 1)')
+      .bail()
+      .notEmpty()
+      .withMessage('esInsumo Vacio')
+      .bail(),
+
+    body('rubroInsumo_id')
+      .isNumeric()
+      .withMessage('rubroInsumo_id debe ser numerico')
+      .bail()
+      .notEmpty()
+      .withMessage('rubroInsumo_id Vacio')
+      .bail(),
+
     (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {

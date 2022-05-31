@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const {validateBebida} = require('../validators/bebidaValidator')
+const {validator} = require('../validators/bebidaValidator')
 
 //Se importa controlador de bebidas
 const controller = require('../controllers/bebidaController')
 
 router.get('/',controller.getBebidas);
 router.get('/all',controller.getAllBebidas);
-router.post('/',validateBebida,controller.createBebidas);
+router.post('/',validator,controller.createBebidas);
 router.delete('/:id',controller.deleteBebidas);
-router.put('/:id',validateBebida,controller.updateBebidas);
+router.put('/:id',validator,controller.updateBebidas);
 router.get('/:id',controller.getBebidasId);
 
 

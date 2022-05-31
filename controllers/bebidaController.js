@@ -29,6 +29,7 @@ const getAllBebidas = async(req,res) => {
     }
 }
 
+//Inserta nueva bebida con su baja logica
 const createBebidas = async(req,res) => {
     let {nombreBebida,precioCompra,precioVenta,stockActual,unidadMedida} = req.body;
     try {
@@ -83,12 +84,12 @@ const deleteBebidas = async(req,res) => {
     }
 }
 
-
+//Actualiza una bebida
 const updateBebidas = async(req,res) => {
     try{
         let {nombreBebida,precioCompra,precioVenta,stockActual,unidadMedida} = req.body;
         let idArt = parseInt(req.params.id);
-        //Se busca la bebida
+        //Se busca la bebida, si no existe, envia un mensaje
         let bebida = await Bebida.findByPk(idArt);
         if(!bebida){
             res.send("No se encontro bebida")
@@ -109,6 +110,8 @@ const updateBebidas = async(req,res) => {
         res.send(error);
     }
 }
+
+//Busca bebida por ID
 const getBebidasId = async(req,res) => {
     try{
         let idArt = parseInt(req.params.id);

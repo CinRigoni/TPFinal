@@ -15,6 +15,9 @@ app.use(cookieParser());
 
 app.use('/api/bebidas', require('./routes/RutasBebidas'));
 app.use('/api/rubroInsumo', require('./routes/RutasRubroInsumo'));
+app.use('/api/rubroGeneral', require('./routes/RutasRubroGeneral'));
+app.use('/api/roles', require('./routes/RutasRoles'));
+app.use('/api/articuloInsumo', require('./routes/RutasArticuloInsumo'));
 
 var http = require('http');
 var server = http.createServer(app);
