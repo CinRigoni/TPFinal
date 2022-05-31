@@ -6,12 +6,12 @@ const {validator} = require('../validators/rubroInsumoValidator')
 //Se importa controlador de rubro insumo
 const controller = require('../controllers/rubroInsumoController')
 
-router.get('/',controller.getRubros);
-router.get('/all',controller.getAllRubros);
-router.post('/',validator,controller.createRubros);
-router.delete('/:id',controller.deleteRubros);
-router.put('/:id',validator,controller.updateRubros);
-router.get('/:id',controller.getRubrosId);
+router.get('/api/rubroInsumo',controller.getRubros);
+router.get('/api/rubroInsumo/all',controller.getAllRubros);
+router.post('/api/rubroInsumo',validator,controller.createRubros);
+router.delete('/api/rubroInsumo/:id',controller.deleteRubros);
+router.put('/api/rubroInsumo/:id',validator,controller.updateRubros);
+router.get('/api/rubroInsumo/:id',controller.getRubrosId);
 
 
 module.exports = router;

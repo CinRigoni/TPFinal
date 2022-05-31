@@ -6,12 +6,12 @@ const {validator} = require('../validators/bebidaValidator')
 //Se importa controlador de bebidas
 const controller = require('../controllers/bebidaController')
 
-router.get('/',controller.getBebidas);
-router.get('/all',controller.getAllBebidas);
-router.post('/',validator,controller.createBebidas);
-router.delete('/:id',controller.deleteBebidas);
-router.put('/:id',validator,controller.updateBebidas);
-router.get('/:id',controller.getBebidasId);
+router.get('/api/bebidas',controller.getBebidas);
+router.get('/api/bebidas/all',controller.getAllBebidas);
+router.post('/api/bebidas',validator,controller.createBebidas);
+router.delete('/api/bebidas/:id',controller.deleteBebidas);
+router.put('/api/bebidas/:id',validator,controller.updateBebidas);
+router.get('/api/bebidas/:id',controller.getBebidasId);
 
 
 module.exports = router;

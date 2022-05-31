@@ -1,10 +1,8 @@
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-//var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
+var routes = require('./routes/indice')
 
 var app = express();
 
@@ -13,11 +11,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api/bebidas', require('./routes/RutasBebidas'));
-app.use('/api/rubroInsumo', require('./routes/RutasRubroInsumo'));
-app.use('/api/rubroGeneral', require('./routes/RutasRubroGeneral'));
-app.use('/api/roles', require('./routes/RutasRoles'));
-app.use('/api/articuloInsumo', require('./routes/RutasArticuloInsumo'));
+//Importa todas las rutas
+routes.forEach(ruta => {
+    app.use(ruta)
+});
 
 var http = require('http');
 var server = http.createServer(app);

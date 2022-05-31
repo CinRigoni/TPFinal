@@ -1,16 +1,16 @@
-const ArticuloInsumo = require('../database/models').ArticuloInsumo;
-const RubroInsumo = require('../database/models').RubroInsumo;
+const ArticuloManufacturado = require('../database/models').ArticuloManufacturado;
+const RubroGeneral = require('../database/models').RubroGeneral;
 const BajaLogica = require('../database/models').BajaLogica;
 
 //Devuelve todas los elementos QUE ESTAN DE ALTA
 const getArticulos = async(req,res) => {
     try{
-        let result = await ArticuloInsumo.findAll({
+        let result = await ArticuloManufacturado.findAll({
             include: [{
                 model: BajaLogica,
                 where: {bajaLogica: false}
             },{
-                model: RubroInsumo,
+                model: RubroGeneral,
                 required: true
             }]
         });
@@ -22,11 +22,11 @@ const getArticulos = async(req,res) => {
 
 const getAllArticulos = async(req,res) => {
     try{
-        let result = await ArticuloInsumo.findAll({
+        let result = await ArticuloManufacturado.findAll({
             include: [{
                 model: BajaLogica
             },{
-                model: RubroInsumo,
+                model: RubroGeneral,
                 required: true
             }]
         });
@@ -38,12 +38,12 @@ const getAllArticulos = async(req,res) => {
 
 //Inserta nuevo elemento con su baja logica
 const createArticulo = async(req,res) => {
-    let {denominacion,precioCompra,precioVenta,stockActual,stockMinimo,unidadMedida,esInsumo,rubroInsumo_id} = req.body;
+    let {tiempoCocinaEstimado,denominacion,precioVenta,imagen,rubroGeneral_id} = req.body;
     try {
-        //Se verifica que exista el Rubro Insumo
-        let rubro = await RubroInsumo.findByPk(rubroInsumo_id);
+        //Se verifica que exista el Rubro General
+        let rubro = await RubroGeneral.findByPk(rubroGeneral_id);
         if(!rubro){
-            res.send("No se encontro rubro")
+            res.send("No se encontro rubro general")
             return;
         }
         //Se crea la baja lógica
@@ -52,24 +52,21 @@ const createArticulo = async(req,res) => {
             fechaBaja: Date.now()
         })
         //Se crea elemento
-        let newArticuloInsumo = await ArticuloInsumo.create({
+        let newArticuloManuf = await ArticuloManufacturado.create({
+            tiempoCocinaEstimado: tiempoCocinaEstimado,
             denominacion: denominacion,
-            precioCompra: precioCompra,
             precioVenta: precioVenta,
-            stockActual: stockActual,
-            stockMinimo: stockMinimo,
-            unidadMedida: unidadMedida,
-            esInsumo: esInsumo,
-            rubroInsumo_id: rubroInsumo_id,
+            imagen: imagen,
+            rubroGeneral_id: rubroGeneral_id,
             bajaLogica_id: newBajaLogica.id
         })
-        console.log(newArticuloInsumo);
-        res.send("Se creo Articulo insumo")
+        console.log(newArticuloManuf);
+        res.send("Se creo Articulo manufacturado")
     }catch(error){
-        console.log(error.parent.sqlMessage);
+        console.log(error);
         res.send({
-            resultado: "No se pudo crear Articulo Insumo",
-            error: error.parent.sqlMessage
+            resultado: "No se pudo crear Articulo manufacturado",
+            error: error
         })
     }
 }
@@ -79,9 +76,9 @@ const deleteArticulo = async(req,res) => {
     try{
         let idArt = parseInt(req.params.id);
         //Se busca el elemento
-        let articuloInsumo = await ArticuloInsumo.findByPk(idArt);
-        if(!articuloInsumo){
-            res.send("No se encontro Articulo Insumo")
+        let articuloManuf = await ArticuloManufacturado.findByPk(idArt);
+        if(!articuloManuf){
+            res.send("No se encontro Articulo Manufacturado")
             return;
         }
         //Se crea primero la baja lógica
@@ -89,12 +86,12 @@ const deleteArticulo = async(req,res) => {
             bajaLogica: 1,
             fechaBaja: Date.now()
         })
-        await ArticuloInsumo.update({ bajaLogica_id: newBajaLogica.id }, {
+        await ArticuloManufacturado.update({ bajaLogica_id: newBajaLogica.id }, {
             where: {
               id: idArt
             }
           });
-          res.send("Se dio baja al Articulo")
+          res.send("Se dio baja al Articulo Manufacturado")
     }catch(error){
         res.send(error);
     }
@@ -103,34 +100,31 @@ const deleteArticulo = async(req,res) => {
 //Actualiza un elemento
 const updateArticulo = async(req,res) => {
     try{
-        let {denominacion,precioCompra,precioVenta,stockActual,stockMinimo,unidadMedida,esInsumo,rubroInsumo_id} = req.body;
+        let {tiempoCocinaEstimado,denominacion,precioVenta,imagen,rubroGeneral_id} = req.body;
         let idArt = parseInt(req.params.id);
         //Se busca la bebida, si no existe, envia un mensaje
-        let articuloInsumo = await ArticuloInsumo.findByPk(idArt);
-        if(!articuloInsumo){
-            res.send("No se encontro Articulo")
+        let articuloManuf = await ArticuloManufacturado.findByPk(idArt);
+        if(!articuloManuf){
+            res.send("No se encontro Articulo Manufacturado")
             return;
         }
-        //Se verifica que exista el Rubro Insumo
-        let rubro = await RubroInsumo.findByPk(rubroInsumo_id);
+        //Se verifica que exista el Rubro General
+        let rubro = await RubroGeneral.findByPk(rubroGeneral_id);
         if(!rubro){
-            res.send("No se encontro rubro")
+            res.send("No se encontro rubro general")
             return;
         }
-        await ArticuloInsumo.update({ 
+        await ArticuloManufacturado.update({ 
+            tiempoCocinaEstimado: tiempoCocinaEstimado,
             denominacion: denominacion,
-            precioCompra: precioCompra,
             precioVenta: precioVenta,
-            stockActual: stockActual,
-            stockMinimo: stockMinimo,
-            unidadMedida: unidadMedida,
-            esInsumo: esInsumo,
-            rubroInsumo_id: rubroInsumo_id}, {
+            imagen: imagen,
+            rubroGeneral_id: rubroGeneral_id}, {
             where: {
               id: idArt
             }
           });
-          res.send("Se actualizo Articulo Insumo");
+          res.send("Se actualizo Articulo manufacturado");
     }catch(error){
         res.send(error);
     }
@@ -140,19 +134,19 @@ const updateArticulo = async(req,res) => {
 const getArticuloId = async(req,res) => {
     try{
         let idArt = parseInt(req.params.id);
-        let articuloInsumo = await ArticuloInsumo.findByPk(idArt,{
+        let articuloManuf = await ArticuloManufacturado.findByPk(idArt,{
             include: [{
                 model: BajaLogica
             },{
-                model: RubroInsumo,
+                model: RubroGeneral,
                 required: true
             }]
         });
-        if(!articuloInsumo){
+        if(!articuloManuf){
             res.send("No se encontro Articulo Insumo")
             return;
         }
-        res.send(articuloInsumo);
+        res.send(articuloManuf);
     }catch(error){
         res.send(error);
     }
