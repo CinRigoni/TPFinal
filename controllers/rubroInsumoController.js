@@ -7,6 +7,7 @@ const getRubros = async(req,res) => {
         let result = await RubroInsumo.findAll({
             include: {
                 model: BajaLogica,
+                required: true,
                 where: {bajaLogica: false}
             },
         });
@@ -106,7 +107,11 @@ const getRubrosId = async(req,res) => {
     try{
         let idArt = parseInt(req.params.id);
         let rubro = await RubroInsumo.findByPk(idArt,{
-            include: {model: BajaLogica}
+            include: {
+                model: BajaLogica,
+                required: true,
+                where: {bajaLogica: false}
+            }
         });
         if(!rubro){
             res.send("No se encontro rubro")

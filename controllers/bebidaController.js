@@ -7,6 +7,7 @@ const getBebidas = async(req,res) => {
         let result = await Bebida.findAll({
             include: {
                 model: BajaLogica,
+                required: true,
                 where: {bajaLogica: false}
             },
         });
@@ -116,7 +117,11 @@ const getBebidasId = async(req,res) => {
     try{
         let idArt = parseInt(req.params.id);
         let bebida = await Bebida.findByPk(idArt,{
-            include: {model: BajaLogica}
+            include: {
+                model: BajaLogica,
+                required: true,
+                where: {bajaLogica: false}
+            }
         });
         if(!bebida){
             res.send("No se encontro bebida")

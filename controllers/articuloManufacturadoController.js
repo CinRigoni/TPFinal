@@ -1,8 +1,11 @@
 const ArticuloManufacturado = require('../database/models').ArticuloManufacturado;
+const ArticuloInsumo = require('../database/models').ArticuloInsumo;
+const ArticuloManufacturadoDetalle = require('../database/models').ArticuloManufacturadoDetalle;
 const RubroGeneral = require('../database/models').RubroGeneral;
 const BajaLogica = require('../database/models').BajaLogica;
 
 //Devuelve todas los elementos QUE ESTAN DE ALTA
+//Menos detallado, solamente con su rubro general
 const getArticulos = async(req,res) => {
     try{
         let result = await ArticuloManufacturado.findAll({
@@ -11,7 +14,12 @@ const getArticulos = async(req,res) => {
                 where: {bajaLogica: false}
             },{
                 model: RubroGeneral,
-                required: true
+                required: false,
+                include: [{
+                    model: BajaLogica,
+                    required: true,
+                    where: {bajaLogica: false}
+                }]
             }]
         });
         res.send(result);
@@ -19,7 +27,7 @@ const getArticulos = async(req,res) => {
         console.log(error);
     }
 }
-
+//Devuelve todos los elementos sin tener en cuenta las BAJAS LOGICAS
 const getAllArticulos = async(req,res) => {
     try{
         let result = await ArticuloManufacturado.findAll({
@@ -27,7 +35,19 @@ const getAllArticulos = async(req,res) => {
                 model: BajaLogica
             },{
                 model: RubroGeneral,
-                required: true
+                required: false,
+                include: [{
+                    model: BajaLogica,
+                    required: true,
+                    where: {bajaLogica: false}
+                }]
+            },{
+                model: ArticuloManufacturadoDetalle,
+                required: false,
+                include: [{
+                    model: ArticuloInsumo,
+                    required: true
+                }]
             }]
         });
         res.send(result);
@@ -102,7 +122,7 @@ const updateArticulo = async(req,res) => {
     try{
         let {tiempoCocinaEstimado,denominacion,precioVenta,imagen,rubroGeneral_id} = req.body;
         let idArt = parseInt(req.params.id);
-        //Se busca la bebida, si no existe, envia un mensaje
+        //Se busca el elemento, si no existe, envia un mensaje
         let articuloManuf = await ArticuloManufacturado.findByPk(idArt);
         if(!articuloManuf){
             res.send("No se encontro Articulo Manufacturado")
@@ -130,20 +150,43 @@ const updateArticulo = async(req,res) => {
     }
 }
 
-//Busca elemento por ID
+//Busca elemento por ID, mas detallado. Incluye los detalles con sus insumos
 const getArticuloId = async(req,res) => {
     try{
         let idArt = parseInt(req.params.id);
         let articuloManuf = await ArticuloManufacturado.findByPk(idArt,{
             include: [{
-                model: BajaLogica
+                model: BajaLogica,
+                required: true,
+                where: {bajaLogica: false}
             },{
                 model: RubroGeneral,
-                required: true
+                required: false,
+                include: [{
+                    model: BajaLogica,
+                    required: true,
+                    where: {bajaLogica: false}
+                }]
+            },{
+                model: ArticuloManufacturadoDetalle,
+                required: false,
+                include: [{
+                    model: ArticuloInsumo,
+                    required: true,
+                    include: [{
+                        model: BajaLogica,
+                        required: true,
+                        where: {bajaLogica: false}
+                    }]
+                },{
+                    model: BajaLogica,
+                    required: true,
+                    where: {bajaLogica: false}
+                }]
             }]
         });
         if(!articuloManuf){
-            res.send("No se encontro Articulo Insumo")
+            res.send("No se encontro Articulo Manufacturado")
             return;
         }
         res.send(articuloManuf);

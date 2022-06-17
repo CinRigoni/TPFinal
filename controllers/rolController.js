@@ -7,6 +7,7 @@ const getRoles = async(req,res) => {
         let rol = await Rol.findAll({
             include: {
                 model: BajaLogica,
+                required: true,
                 where: {bajaLogica: false}
             },
         });
@@ -107,7 +108,11 @@ const getRolesId = async(req,res) => {
     try{
         let idRol = parseInt(req.params.id);
         let rol = await RubroInsumo.findByPk(idRol,{
-            include: {model: BajaLogica}
+            include: {
+                model: BajaLogica,
+                required: true,
+                where: {bajaLogica: true}
+            }
         });
         if(!rol){
             res.send("No se encontro rol")

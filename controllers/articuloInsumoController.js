@@ -8,10 +8,17 @@ const getArticulos = async(req,res) => {
         let result = await ArticuloInsumo.findAll({
             include: [{
                 model: BajaLogica,
+                required: true,
                 where: {bajaLogica: false}
             },{
                 model: RubroInsumo,
-                required: true
+                //Devuelve el elemento aunque no tenga asignado RubroInsumo
+                required: false,
+                include: [{
+                    model: BajaLogica,
+                    required: true,
+                    where: {bajaLogica: false}
+                }]
             }]
         });
         res.send(result);
@@ -27,7 +34,13 @@ const getAllArticulos = async(req,res) => {
                 model: BajaLogica
             },{
                 model: RubroInsumo,
-                required: true
+                //Devuelve el elemento aunque no tenga asignado RubroInsumo
+                required: false,
+                include: [{
+                    model: BajaLogica,
+                    required: true,
+                    where: {bajaLogica: false}
+                }]
             }]
         });
         res.send(result);
@@ -105,7 +118,7 @@ const updateArticulo = async(req,res) => {
     try{
         let {denominacion,precioCompra,precioVenta,stockActual,stockMinimo,unidadMedida,esInsumo,rubroInsumo_id} = req.body;
         let idArt = parseInt(req.params.id);
-        //Se busca la bebida, si no existe, envia un mensaje
+        //Se busca el elemento, si no existe, envia un mensaje
         let articuloInsumo = await ArticuloInsumo.findByPk(idArt);
         if(!articuloInsumo){
             res.send("No se encontro Articulo")
@@ -142,10 +155,18 @@ const getArticuloId = async(req,res) => {
         let idArt = parseInt(req.params.id);
         let articuloInsumo = await ArticuloInsumo.findByPk(idArt,{
             include: [{
-                model: BajaLogica
+                model: BajaLogica,
+                required: true,
+                where: {bajaLogica: false}
             },{
                 model: RubroInsumo,
-                required: true
+                //Devuelve el elemento aunque no tenga asignado RubroInsumo
+                required: false,
+                include: [{
+                    model: BajaLogica,
+                    required: true,
+                    where: {bajaLogica: false}
+                }]
             }]
         });
         if(!articuloInsumo){
