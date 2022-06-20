@@ -55,6 +55,7 @@ const {body, validationResult} = require('express-validator');
         .notEmpty()
         .withMessage('Campo email Vacio')
         .bail(),
+        //
 
     (req, res, next) => {
       const errors = validationResult(req);
