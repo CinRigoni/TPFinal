@@ -7,7 +7,7 @@ module.exports = {
   database: process.env.DB_DATABASE,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
-  dialect: process.env.DB_DIALECT,
+  dialect: 'mysql',
   define: {
     //Desactiva la pluralizacion de tablas
     freezeTableName: true
