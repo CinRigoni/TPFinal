@@ -64,7 +64,7 @@ const ingresar = async(req,res) => {
     }catch(error){
         console.log(error);
         res.send({
-            resultado: "No se pudo crear Usuario"
+            resultado: "No se pudo ingresar"
         })
     }
 }
