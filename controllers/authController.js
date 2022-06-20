@@ -68,7 +68,7 @@ const ingresar = async(req,res) => {
         })
     }
 }
-const autenticar = async(req,res,next) => {
+const authEstandar = async(req,res,next) => {
     const token = req.cookies.jwt;
     if (!token) return res.status(401).json({ error: 'Acceso denegado' });
     try {
@@ -80,4 +80,20 @@ const autenticar = async(req,res,next) => {
     }
 }
 
-module.exports = {registrar,ingresar,autenticar};
+const authAdmin = async(req,res,next) => {
+    const token = req.cookies.jwt;
+    if (!token) return res.status(401).json({ error: 'Acceso denegado' });
+    try {
+        const verified = jwt.verify(token, process.env.JWT_KEY)
+        req.usuario = verified;
+        let usuario = await Usuario.findByPk(verified.id);
+        if(usuario.rol_id != 2){
+            return res.status(401).json({ error: 'Acceso denegado' });
+        }
+        next();
+    } catch (error) {
+        res.status(400).json({error: 'Token no es válido'})
+    }
+}
+
+module.exports = {registrar,ingresar,authEstandar, authAdmin};
