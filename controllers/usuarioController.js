@@ -135,13 +135,13 @@ const updateUsuario = async(req,res) => {
             return;
         }
         let username = await Usuario.findOne({ where: { usuario: usuario } });
-        if(username){
+        if(username.id != idArt){
             res.send("Ya existe un usuario con ese nombre, ingrese otro")
             return;
         }
         //Verifica que el email no haya sido registrado aun
         let mail = await Usuario.findOne({ where: { email: email } });
-        if(mail){
+        if(mail.id != idArt){
             res.send("Ya existe una cuenta con ese correo")
             return;
         }
