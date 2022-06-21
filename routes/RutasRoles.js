@@ -4,15 +4,18 @@ const router = express.Router();
 //Se importa validaciones
 const {validator} = require('../validators/rolValidator')
 
+//Se importa controlador de autentificacion para administradores
+const {authAdmin} = require('../controllers/authController')
+
 //Se importa controlador de roles
 const controller = require('../controllers/rolController')
 
-router.get('/api/roles',controller.getRoles);
-router.get('/api/roles/all',controller.getAllRoles);
-router.post('/api/roles',validator,controller.createRoles);
-router.delete('/api/roles/:id',controller.deleteRoles);
-router.put('/api/roles/:id',validator,controller.updateRoles);
-router.get('/api/roles/:id',controller.getRolesId);
+router.get('/api/roles',authAdmin,controller.getRoles);
+router.get('/api/roles/all',authAdmin,controller.getAllRoles);
+router.post('/api/roles',authAdmin,validator,controller.createRoles);
+router.delete('/api/roles/:id',authAdmin,controller.deleteRoles);
+router.put('/api/roles/:id',authAdmin,validator,controller.updateRoles);
+router.get('/api/roles/:id',authAdmin,controller.getRolesId);
 
 
 module.exports = router;
