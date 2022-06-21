@@ -35,6 +35,15 @@ module.exports = {
         },
         onUpdate: 'CASCADE'
       },
+      pedido_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'pedido',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE'
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

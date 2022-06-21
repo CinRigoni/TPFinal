@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       Pedido.hasOne(models.Factura, {
         foreignKey: 'pedido_id'
       })
+
+      Pedido.hasMany(models.DetallePedido, {
+        foreignKey: 'pedido_id'
+      })
     }
   }
   Pedido.init({
